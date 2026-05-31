@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>Registro de Actividades | Cinepolito Experto</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #f0f0f0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 10px 44px;
+  min-height: 100vh;
+}
+
+.toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: #f0f0f0;
+  padding: 8px 16px;
+  border-radius: 60px;
+}
+
+.btn {
+  border: none;
+  border-radius: 40px;
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-print {
+  background: #4a0099;
+  color: #fff;
+}
+
+.btn-clear {
+  background: #fff;
+  color: #444;
+  border: 1px solid #ccc;
+}
+
+.btn-add {
+  background: #00bcd4;
+  color: #fff;
+}
+
+.formats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.format-card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.sheet {
+  background: #fff;
+  width: 270mm;
+  min-height: 116mm;
+  position: relative;
+  box-shadow: 0 4px 24px #0000001a;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.format-actions {
+  position: absolute;
+  top: 5px;
+  left: 150px;
+  display: flex;
+  gap: 8px;
+  z-index: 25;
+  background: rgba(255,255,255,0.92);
+  border-radius: 40px;
+  padding: 4px 8px;
+  border: 1px solid #e0c0ff;
+}
+
+.small-btn {
+  background: #f0f0f0;
+  border: none;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #333;
+}
+
+.delete-btn {
+  background: #ffe0e0;
+  color: #b00020;
+}
+
+.left-bars {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.bar-purple {
+  width: 12px;
+  background: #4a0099;
+}
+
+.bar-teal {
+  width: 6px;
+  background: #00bcd4;
+}
+
+.main {
+  flex: 1;
+  padding: 14px 14px 12px 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.corner-deco {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+}
+
+.corner-deco::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 66px;
+  height: 50px;
+  background: linear-gradient(135deg, #7b1fa2 0%, #e040fb 100%);
+  clip-path: polygon(35% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.corner-deco::after {
+  content: '';
+  position: absolute;
+  bottom: 50px;
+  right: 0;
+  width: 40px;
+  height: 28px;
+  background: #00bcd4;
+  clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.dt-block {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dt-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.dt-lbl {
+  font-size: 8.5px;
+  font-weight: 600;
+  color: #000;
+  min-width: 58px;
+}
+
+.dt-val {
+  border: none;
+  border-bottom: 1.4px solid #b36be0;
+  outline: none;
+  font-size: 9px;
+  color: #1a1a2e;
+  background: transparent;
+  width: 108px;
+  padding: 0 2px 1px;
+  cursor: pointer;
+}
+
+.dt-print {
+  display: none;
+}
+
+.sec-title {
+  font-size: 13px;
+  font-weight: 900;
+  color: #3d0080;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.checks-ent {
+  display: grid;
+  grid-template-columns: 130px 160px 180px auto;
+  grid-template-rows: repeat(3, 20px);
+}
+
+.checks-acr {
+  display: grid;
+  grid-template-columns: 130px 160px 180px 1fr;
+  grid-template-rows: repeat(3, 20px);
+}
+
+.checks-ref {
+  display: grid;
+  grid-template-columns: 200px 220px 1fr;
+  grid-template-rows: repeat(3, 22px);
+}
+
+.ci {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  user-select: none;
+  width: fit-content;
+}
+
+.cb {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid #9c40e0;
+  border-radius: 2px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 900;
+  color: transparent;
+  background: #fff;
+}
+
+.ci.on .cb {
+  background: #4a0099;
+  border-color: #4a0099;
+  color: #fff;
+}
+
+.ci-lbl {
+  font-size: 10px;
+  color: #1a1a2e;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.side-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 8px;
+}
+
+.sb-lbl {
+  font-size: 8px;
+  color: #555;
+  font-weight: 600;
+}
+
+.sb-input {
+  border: 1.5px solid #9c40e0;
+  border-radius: 3px;
+  outline: none;
+  background: #fff;
+  font-size: 9.5px;
+  color: #1a1a2e;
+  padding: 4px 6px;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.4;
+  width: 100%;
+  min-height: 32px;
+}
+
+.sb-input.tall {
+  min-height: 54px;
+}
+
+.obs-box {
+  margin-top: 8px;
+  width: 100%;
+}
+
+.obs-input {
+  border: 1.5px solid #9c40e0;
+  border-radius: 3px;
+  outline: none;
+  background: #fff;
+  font-size: 9.5px;
+  color: #1a1a2e;
+  padding: 4px 6px;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.4;
+  width: 60%;
+  min-height: 38px;
+}
+
+.acr-bar-vip {
+  grid-column: 4;
+  grid-row: 1;
+  padding-left: 10px;
+}
+
+.acr-side {
+  grid-column: 4;
+  grid-row: 2 / span 2;
+  padding-left: 10px;
+}
+
+.ref-side {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+}
+
+.sigs {
+  display: flex;
+  margin-top: 12px;
+  position: relative;
+  z-index: 1;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.sig {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  max-width: 240px;
+  margin-right: 20px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.sig-line {
+  border: none;
+  border-bottom: 1.2px solid #9c40e0;
+  outline: none;
+  width: 100%;
+  font-size: 10px;
+  color: #1a1a2e;
+  background: transparent;
+  text-align: center;
+  padding: 1px 6px;
+}
+
+.sig-lbl {
+  font-size: 8.5px;
+  color: #555;
+}
+
+.firma-boton {
+  background: #ede7f6;
+  border: 1px solid #9c40e0;
+  border-radius: 24px;
+  font-size: 10px;
+  padding: 4px 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sig-digital-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 35px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.sig-img {
+  max-width: 140px;
+  max-height: 50px;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+}
+
+.evidence-section {
+  background: #fff;
+  width: 270mm;
+  padding: 18px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 24px #0000001a;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.evidence-title {
+  color: #3d0080;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.evidence-upload {
+  margin-bottom: 12px;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.photo-item {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.photo-item img {
+  width: 100%;
+  height: auto;
+  max-height: 220px;
+  object-fit: contain;
+  display: block;
+  background: #fff;
+}
+
+.photo-delete {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #b00020;
+  color: #fff;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 24px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.modal-firma {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-firma.active {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.modal-content canvas {
+  border: 2px solid #9c40e0;
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.firma-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.firma-buttons button {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 12px 6px 30px;
+    align-items: flex-start;
+    overflow-x: auto;
+  }
+
+  .toolbar {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+    border-radius: 0;
+  }
+
+  .sheet,
+  .evidence-section {
+    width: 1000px;
+  }
+
+  .formats-container {
+    align-items: flex-start;
+  }
+}
+
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 8mm 10mm;
+  }
+
+  body {
+    background: #fff;
+    padding: 0;
+    display: block;
+  }
+
+  .toolbar,
+  .format-actions,
+  .firma-boton,
+  .modal-firma,
+  .evidence-upload,
+  .photo-delete {
+    display: none !important;
+  }
+
+  .formats-container {
+    gap: 0;
+  }
+
+  .format-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 6mm;
+  }
+
+  .sheet {
+    width: 100%;
+    min-height: 116mm;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .sigs,
+  .sig,
+  .sig-digital-container {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .dt-val {
+    display: none !important;
+  }
+
+  .dt-print {
+    display: inline-block !important;
+    font-size: 9px;
+    border-bottom: 1.4px solid #b36be0;
+    min-width: 80px;
+  }
+
+  .evidence-section {
+    width: 100%;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-top: 6mm;
+  }
+
+  .photo-item,
+  .photo-item img {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+  <button class="btn btn-add" id="btnAgregarFormato">+ Agregar otro formato</button>
+  <button class="btn btn-clear" onclick="clearAllFormats()">Limpiar todo</button>
+  <button class="btn btn-print" onclick="window.print()">Imprimir / Guardar PDF</button>
+</div>
+
+<div class="formats-container" id="formatsContainer"></div>
+
+<div id="modalFirma" class="modal-firma">
+  <div class="modal-content">
+    <h4 style="margin-bottom:10px;">Dibuja tu firma</h4>
+    <canvas id="signCanvas" width="380" height="150"></canvas>
+
+    <div class="firma-buttons">
+      <button id="btnGuardarFirma" style="background:#4a0099; color:white;">Guardar firma</button>
+      <button id="btnLimpiarFirma" style="background:#ddd;">Limpiar</button>
+      <button id="btnCancelarFirma" style="background:#ccc;">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentSignatureContext = null;
+
+function todayISO() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function getBaseFormatStructure() {
+  const div = document.createElement('div');
+  div.className = 'format-card';
+
+  div.innerHTML = `
+    <div class="sheet">
+      <div class="left-bars">
+        <div class="bar-purple"></div>
+        <div class="bar-teal"></div>
+      </div>
+
+      <div class="main">
+        <div class="corner-deco"></div>
+
+        <div class="format-actions">
+          <button class="small-btn duplicate-btn" type="button">Duplicar formato</button>
+          <button class="small-btn delete-btn" type="button">Eliminar formato</button>
+        </div>
+
+        <div class="dt-block">
+          <div class="dt-row">
+            <span class="dt-lbl">Complejo:</span>
+            <input class="dt-val complejo-input" type="text" placeholder="Conjunto">
+            <span class="dt-print complejo-print"></span>
+          </div>
+
+          <div class="dt-row">
+            <span class="dt-lbl">Fecha:</span>
+            <input class="dt-val fecha-input" type="date">
+            <span class="dt-print fecha-print"></span>
+          </div>
+
+          <div class="dt-row">
+            <span class="dt-lbl">Hora inicio:</span>
+            <input class="dt-val inicio-input" type="time">
+            <span class="dt-print inicio-print"></span>
+          </div>
+
+          <div class="dt-row">
+            <span class="dt-lbl">Hora final:</span>
+            <input class="dt-val final-input" type="time">
+            <span class="dt-print final-print"></span>
+          </div>
+        </div>
+
+        <div class="sec-title">Entrenamientos:</div>
+
+        <div class="checks-ent">
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Dulcería</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Taquilla</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Coffee Tree</span></div>
+
+          <div class="ci" style="grid-column:2;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Spyral</span></div>
+          <div class="ci" style="grid-column:2;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Limpieza Operativa</span></div>
+          <div class="ci" style="grid-column:2;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Control de Salas</span></div>
+
+          <div class="ci" style="grid-column:3;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Comandero RSB VIP</span></div>
+          <div class="ci" style="grid-column:3;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Corredor RSB VIP</span></div>
+          <div class="ci" style="grid-column:3;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Cocina Industrial VIP</span></div>
+
+          <div class="ci" style="grid-column:4;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Bar VIP</span></div>
+        </div>
+
+        <div class="sec-title">Acreditaciones:</div>
+
+        <div class="checks-acr">
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Dulcería</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Taquilla</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Coffee Tree</span></div>
+
+          <div class="ci" style="grid-column:2;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Spyral</span></div>
+          <div class="ci" style="grid-column:2;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Limpieza Operativa</span></div>
+          <div class="ci" style="grid-column:2;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Control de Salas</span></div>
+
+          <div class="ci" style="grid-column:3;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Comandero RSB VIP</span></div>
+          <div class="ci" style="grid-column:3;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Corredor RSB VIP</span></div>
+          <div class="ci" style="grid-column:3;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Cocina Industrial VIP</span></div>
+
+          <div class="ci acr-bar-vip"><div class="cb">✓</div><span class="ci-lbl">Bar VIP</span></div>
+
+          <div class="side-box acr-side">
+            <span class="sb-lbl">Especifica la estación de Cocina Industrial / Coffee Tree:</span>
+            <textarea class="sb-input acr-text"></textarea>
+          </div>
+        </div>
+
+        <div class="sec-title">Reforzamiento a Procesos:</div>
+
+        <div class="checks-ref">
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Elaboración de un producto</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Producto nuevo (lanzamiento)</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Técnica de venta</span></div>
+
+          <div class="ci" style="grid-column:2;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Punto de venta (POS)</span></div>
+          <div class="ci" style="grid-column:2;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Restaurante en su Butaca (RBS)</span></div>
+
+          <div class="ci" style="grid-column:2;grid-row:3">
+            <div class="cb">✓</div>
+            <span class="ci-lbl">Equipos<br><span style="font-size:8.5px;">(Habilitación e Inhabilitación)</span></span>
+          </div>
+
+          <div class="side-box ref-side">
+            <span class="sb-lbl">Especifica el producto que reforzaste:</span>
+            <textarea class="sb-input tall ref-text"></textarea>
+          </div>
+        </div>
+
+        <div class="obs-box">
+          <span class="sb-lbl">Observaciones:</span>
+          <textarea class="obs-input obs-text"></textarea>
+        </div>
+
+        <div class="sigs">
+          <div class="sig">
+            <input class="sig-line" type="text" placeholder="Nombre completo">
+            <span class="sig-lbl">Cinepolito Experto</span>
+            <div class="sig-digital-container"></div>
+            <button class="firma-boton" type="button">Firmar</button>
+          </div>
+
+          <div class="sig">
+            <input class="sig-line" type="text" placeholder="Nombre completo">
+            <span class="sig-lbl">Cinepolito</span>
+            <div class="sig-digital-container"></div>
+            <button class="firma-boton" type="button">Firmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-section">
+      <div class="evidence-title">Evidencia fotográfica</div>
+      <input class="evidence-upload" type="file" accept="image/*" multiple>
+      <div class="photo-grid"></div>
+    </div>
+  `;
+
+  return div;
+}
+
+function createPhotoElement(src) {
+  const item = document.createElement('div');
+  item.className = 'photo-item';
+
+  const img = document.createElement('img');
+  img.src = src;
+
+  const del = document.createElement('button');
+  del.className = 'photo-delete';
+  del.type = 'button';
+  del.textContent = '×';
+  del.addEventListener('click', () => {
+    item.remove();
+    saveAllToLocalStorage();
+  });
+
+  item.appendChild(img);
+  item.appendChild(del);
+
+  return item;
+}
+
+function autoHeight(el) {
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+
+function bindFormatEvents(formatCard) {
+  formatCard.querySelectorAll('.ci').forEach(ci => {
+    ci.addEventListener('click', () => {
+      ci.classList.toggle('on');
+      saveAllToLocalStorage();
+    });
+  });
+
+  formatCard.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', () => {
+      autoHeight(ta);
+      saveAllToLocalStorage();
+    });
+    autoHeight(ta);
+  });
+
+  formatCard.querySelectorAll('.dt-val, .sig-line').forEach(input => {
+    input.addEventListener('input', () => {
+      updatePrintDates(formatCard);
+      saveAllToLocalStorage();
+    });
+  });
+
+  formatCard.querySelector('.duplicate-btn').addEventListener('click', () => duplicarFormato(formatCard));
+  formatCard.querySelector('.delete-btn').addEventListener('click', () => eliminarFormato(formatCard));
+
+  formatCard.querySelectorAll('.firma-boton').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentSignatureContext = btn.parentElement.querySelector('.sig-digital-container');
+      abrirModalFirma();
+    });
+  });
+
+  formatCard.querySelector('.evidence-upload').addEventListener('change', e => {
+    const grid = formatCard.querySelector('.photo-grid');
+
+    Array.from(e.target.files).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = event => {
+        grid.appendChild(createPhotoElement(event.target.result));
+        saveAllToLocalStorage();
+      };
+      reader.readAsDataURL(file);
+    });
+
+    e.target.value = '';
+  });
+
+  updatePrintDates(formatCard);
+}
+
+function updatePrintDates(card) {
+  const complejo = card.querySelector('.complejo-input');
+  const fecha = card.querySelector('.fecha-input');
+  const inicio = card.querySelector('.inicio-input');
+  const final = card.querySelector('.final-input');
+
+  const complejoPrint = card.querySelector('.complejo-print');
+  const fechaPrint = card.querySelector('.fecha-print');
+  const inicioPrint = card.querySelector('.inicio-print');
+  const finalPrint = card.querySelector('.final-print');
+
+  complejoPrint.textContent = complejo.value || '';
+  fechaPrint.textContent = fecha.value ? fecha.value.split('-').reverse().join('/') : '';
+  inicioPrint.textContent = inicio.value || '';
+  finalPrint.textContent = final.value || '';
+}
+
+function agregarNuevoFormato(usarValoresDefault = true) {
+  const card = getBaseFormatStructure();
+  bindFormatEvents(card);
+
+  if (usarValoresDefault) {
+    const fecha = card.querySelector('.fecha-input');
+    const complejo = card.querySelector('.complejo-input');
+
+    fecha.value = todayISO();
+    complejo.value = 'MC Mexicali Sur';
+  }
+
+  updatePrintDates(card);
+
+  document.getElementById('formatsContainer').appendChild(card);
+  saveAllToLocalStorage();
+}
+
+function duplicarFormato(original) {
+  const clone = original.cloneNode(true);
+
+  clone.querySelectorAll('.sig-digital-container').forEach(c => c.innerHTML = '');
+
+  bindFormatEvents(clone);
+  original.after(clone);
+  saveAllToLocalStorage();
+}
+
+function eliminarFormato(card) {
+  if (document.querySelectorAll('.format-card').length === 1) {
+    alert('Debe quedar al menos un formato.');
+    return;
+  }
+
+  if (confirm('¿Eliminar este formato?')) {
+    card.remove();
+    saveAllToLocalStorage();
+  }
+}
+
+function clearAllFormats() {
+  if (!confirm('¿Limpiar todos los formatos?')) return;
+
+  document.getElementById('formatsContainer').innerHTML = '';
+  localStorage.removeItem('ce_multiformats');
+  agregarNuevoFormato(false);
+}
+
+function abrirModalFirma() {
+  const modal = document.getElementById('modalFirma');
+  const canvas = document.getElementById('signCanvas');
+  const ctx = canvas.getContext('2d');
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = '#0033cc';
+  ctx.lineWidth = 1;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  let drawing = false;
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+
+    if (e.touches) {
+      return {
+        x: (e.touches[0].clientX - rect.left) * (canvas.width / rect.width),
+        y: (e.touches[0].clientY - rect.top) * (canvas.height / rect.height)
+      };
+    }
+
+    return {
+      x: (e.clientX - rect.left) * (canvas.width / rect.width),
+      y: (e.clientY - rect.top) * (canvas.height / rect.height)
+    };
+  }
+
+  function start(e) {
+    e.preventDefault();
+    drawing = true;
+    const pos = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  }
+
+  function move(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  }
+
+  function end() {
+    drawing = false;
+  }
+
+  canvas.onmousedown = start;
+  canvas.onmousemove = move;
+  canvas.onmouseup = end;
+  canvas.onmouseleave = end;
+
+  canvas.ontouchstart = start;
+  canvas.ontouchmove = move;
+  canvas.ontouchend = end;
+
+  modal.classList.add('active');
+}
+
+document.getElementById('btnGuardarFirma').addEventListener('click', () => {
+  const canvas = document.getElementById('signCanvas');
+  const img = document.createElement('img');
+
+  img.src = canvas.toDataURL('image/png');
+  img.className = 'sig-img';
+
+  currentSignatureContext.innerHTML = '';
+  currentSignatureContext.appendChild(img);
+
+  document.getElementById('modalFirma').classList.remove('active');
+  saveAllToLocalStorage();
+});
+
+document.getElementById('btnLimpiarFirma').addEventListener('click', () => {
+  const canvas = document.getElementById('signCanvas');
+  const ctx = canvas.getContext('2d');
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
+
+document.getElementById('btnCancelarFirma').addEventListener('click', () => {
+  document.getElementById('modalFirma').classList.remove('active');
+});
+
+function saveAllToLocalStorage() {
+  const data = [];
+
+  document.querySelectorAll('.format-card').forEach(card => {
+    data.push({
+      checks: Array.from(card.querySelectorAll('.ci')).map(ci => ci.classList.contains('on')),
+      inputs: Array.from(card.querySelectorAll('input')).map(input => input.type === 'file' ? '' : input.value),
+      textareas: Array.from(card.querySelectorAll('textarea')).map(ta => ta.value),
+      firmas: Array.from(card.querySelectorAll('.sig-digital-container')).map(c => {
+        const img = c.querySelector('img');
+        return img ? img.src : '';
+      }),
+      fotos: Array.from(card.querySelectorAll('.photo-item img')).map(img => img.src)
+    });
+  });
+
+  localStorage.setItem('ce_multiformats', JSON.stringify(data));
+}
+
+function restoreAllFromStorage() {
+  const raw = localStorage.getItem('ce_multiformats');
+
+  if (!raw) {
+    agregarNuevoFormato();
+    return;
+  }
+
+  try {
+    const data = JSON.parse(raw);
+    document.getElementById('formatsContainer').innerHTML = '';
+
+    data.forEach(item => {
+      const card = getBaseFormatStructure();
+      bindFormatEvents(card);
+
+      card.querySelectorAll('.ci').forEach((ci, i) => {
+        if (item.checks[i]) ci.classList.add('on');
+      });
+
+      card.querySelectorAll('input').forEach((input, i) => {
+        if (input.type !== 'file' && item.inputs[i] !== undefined) input.value = item.inputs[i];
+      });
+
+      card.querySelectorAll('textarea').forEach((ta, i) => {
+        if (item.textareas[i] !== undefined) {
+          ta.value = item.textareas[i];
+          autoHeight(ta);
+        }
+      });
+
+      card.querySelectorAll('.sig-digital-container').forEach((c, i) => {
+        if (item.firmas[i]) {
+          const img = document.createElement('img');
+          img.src = item.firmas[i];
+          img.className = 'sig-img';
+          c.appendChild(img);
+        }
+      });
+
+      const grid = card.querySelector('.photo-grid');
+      item.fotos.forEach(src => {
+        grid.appendChild(createPhotoElement(src));
+      });
+
+      document.getElementById('formatsContainer').appendChild(card);
+      updatePrintDates(card);
+    });
+  } catch {
+    agregarNuevoFormato();
+  }
+}
+
+document.getElementById('btnAgregarFormato').addEventListener('click', agregarNuevoFormato);
+
+restoreAllFromStorage();
+</script>
+
+</body>
+</html>
