@@ -712,43 +712,100 @@ body {
   }
 
   body {
-    background: #fff;
-    padding: 0;
-    display: block;
+    background: #fff !important;
+    padding: 0 !important;
+    display: block !important;
+    overflow: visible !important;
   }
 
   .toolbar,
   .format-actions,
   .firma-boton,
   .modal-firma,
-  .evidence-upload {
+  .evidence-upload,
+  .photo-delete {
     display: none !important;
   }
 
   .formats-container {
-    gap: 0;
+    gap: 0 !important;
+    align-items: center !important;
   }
 
   .format-card {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-bottom: 6mm;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    margin-bottom: 6mm !important;
+  }
+
+  .sheet,
+  .evidence-section {
+    width: 270mm !important;
+    max-width: 270mm !important;
+    min-width: 270mm !important;
+    box-shadow: none !important;
   }
 
   .sheet {
-    width: 100%;
-    min-height: 106mm;
-    box-shadow: none;
-    border: 1px solid #ccc;
-    break-inside: avoid;
-    page-break-inside: avoid;
+    min-height: 116mm !important;
+    display: flex !important;
+    overflow: hidden !important;
+    border: 1px solid #ccc !important;
   }
 
-  .sigs,
-  .sig,
-  .sig-digital-container {
-    break-inside: avoid;
-    page-break-inside: avoid;
+  .main {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .checks-ent {
+    display: grid !important;
+    grid-template-columns: 130px 160px 180px auto !important;
+    grid-template-rows: repeat(3, 20px) !important;
+  }
+
+  .checks-acr {
+    display: grid !important;
+    grid-template-columns: 130px 160px 180px 1fr !important;
+    grid-template-rows: repeat(3, 20px) !important;
+  }
+
+  .checks-ref {
+    display: grid !important;
+    grid-template-columns: 200px 220px 1fr !important;
+    grid-template-rows: repeat(3, 22px) !important;
+  }
+
+  .acr-bar-vip {
+    grid-column: 4 !important;
+    grid-row: 1 !important;
+    padding-left: 10px !important;
+  }
+
+  .acr-side {
+    grid-column: 4 !important;
+    grid-row: 2 / span 2 !important;
+    padding-left: 10px !important;
+  }
+
+  .ref-side {
+    grid-column: 3 !important;
+    grid-row: 1 / span 3 !important;
+  }
+
+  .ci-lbl {
+    white-space: nowrap !important;
+    font-size: 10px !important;
+  }
+
+  .dt-block {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
   }
 
   .dt-val {
@@ -757,27 +814,29 @@ body {
 
   .dt-print {
     display: inline-block !important;
-    font-size: 9px;
-    border-bottom: 1.4px solid #b36be0;
-    min-width: 80px;
+    font-size: 9px !important;
+    border-bottom: 1.4px solid #b36be0 !important;
+    min-width: 80px !important;
+  }
+
+  .sigs,
+  .sig,
+  .sig-digital-container {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
   .evidence-section {
-    width: 100%;
-    box-shadow: none;
-    border: 1px solid #ccc;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    margin-top: 6mm;
+    margin-top: 6mm !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 
-  .photo-grid img {
-    width: 100%;
-    height: auto;
-    max-height: 220px;
-    object-fit: contain;
-    break-inside: avoid;
-    page-break-inside: avoid;
+  .photo-item,
+  .photo-item img {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 }
 </style>
