@@ -707,8 +707,8 @@ body {
 
 @media print {
   @page {
-    size: letter portrait;
-    margin: 8mm 10mm;
+    size: letter landscape;
+    margin: 7mm 8mm;
   }
 
   body {
@@ -739,44 +739,36 @@ body {
     display: flex !important;
     flex-direction: column !important;
     align-items: stretch !important;
+    margin-bottom: 5mm !important;
     break-inside: avoid !important;
     page-break-inside: avoid !important;
-    margin-bottom: 6mm !important;
   }
 
   .sheet {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
-    min-height: 116mm !important;
+    min-height: 105mm !important;
     display: flex !important;
-    overflow: visible !important;
+    overflow: hidden !important;
     box-shadow: none !important;
     border: 1px solid #ccc !important;
     transform: none !important;
-  }
-
-  .evidence-section {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-width: 0 !important;
-    margin-top: 6mm !important;
-    box-shadow: none !important;
-    border: 1px solid #ccc !important;
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
-    transform: none !important;
-  }
-
-  .left-bars {
-    flex-shrink: 0 !important;
   }
 
   .main {
     width: 100% !important;
+    padding: 14px 14px 12px 12px !important;
     display: flex !important;
     flex-direction: column !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+  }
+
+  .dt-block {
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    left: auto !important;
   }
 
   .checks-ent {
@@ -812,6 +804,7 @@ body {
   .ref-side {
     grid-column: 3 !important;
     grid-row: 1 / span 3 !important;
+    padding-left: 8px !important;
   }
 
   .ci-lbl {
@@ -819,10 +812,32 @@ body {
     font-size: 10px !important;
   }
 
-  .dt-block {
-    position: absolute !important;
-    top: 14px !important;
-    right: 14px !important;
+  .sb-input {
+    width: 100% !important;
+  }
+
+  .obs-input {
+    width: 60% !important;
+  }
+
+  .sigs {
+    display: flex !important;
+    flex-direction: row !important;
+    margin-top: 12px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .sig {
+    max-width: 240px !important;
+    margin-right: 20px !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .sig-img {
+    max-width: 140px !important;
+    max-height: 45px !important;
   }
 
   .dt-val {
@@ -836,11 +851,16 @@ body {
     min-width: 80px !important;
   }
 
-  .sigs,
-  .sig,
-  .sig-digital-container {
-    break-inside: avoid !important;
-    page-break-inside: avoid !important;
+  .evidence-section {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin-top: 5mm !important;
+    padding: 14px !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
   }
 
   .photo-grid {
@@ -849,8 +869,7 @@ body {
     gap: 10px !important;
   }
 
-  .photo-item,
-  .photo-item img {
+  .photo-item {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
@@ -858,8 +877,10 @@ body {
   .photo-item img {
     width: 100% !important;
     height: auto !important;
-    max-height: 220px !important;
+    max-height: 180px !important;
     object-fit: contain !important;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
   }
 }
 </style>
