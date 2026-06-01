@@ -8,7 +8,6 @@
 <style>
 /* ═══════════════════════════════════════════════════════
    BASE — escritorio (sin media query)
-   Todo lo que está aquí define el aspecto de computadora
    ═══════════════════════════════════════════════════════ */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -145,7 +144,7 @@ body {
   clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
 
-/* ── Bloque fecha/hora (esquina superior derecha) ── */
+/* ── Bloque fecha/hora y complejo (escritorio) ── */
 .dt-block {
   position: absolute;
   top: 14px; right: 14px;
@@ -177,6 +176,16 @@ body {
   cursor: pointer;
 }
 .dt-print { display: none; }
+
+/* Complejo (solo se ve en móvil normalmente, pero en escritorio se oculta) */
+.complejo-container {
+  display: none; /* en escritorio no aparece */
+}
+
+/* Observaciones (solo móvil) */
+.observaciones-container {
+  display: none;
+}
 
 /* ── Títulos de sección ── */
 .sec-title {
@@ -482,7 +491,7 @@ body {
   }
   .small-btn { font-size: 13px; padding: 8px 18px; }
 
-  /* Fecha/hora: flujo normal debajo de los botones */
+  /* Fecha/hora y complejo: flujo normal debajo de los botones */
   .dt-block {
     position: static !important;
     width: 100%;
@@ -502,6 +511,50 @@ body {
     font-size: 14px;
     padding: 4px 6px;
     border-bottom-width: 1.5px;
+  }
+
+  /* Mostrar el campo Complejo en móvil */
+  .complejo-container {
+    display: block;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  .complejo-container .dt-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .complejo-container .dt-lbl {
+    font-size: 13px;
+    min-width: 80px;
+  }
+  .complejo-input {
+    flex: 1;
+    border: none;
+    border-bottom: 1.4px solid #b36be0;
+    font-size: 14px;
+    padding: 4px 6px;
+    background: transparent;
+    outline: none;
+  }
+
+  /* Observaciones en móvil */
+  .observaciones-container {
+    display: block;
+    width: 100%;
+    margin: 16px 0 20px;
+  }
+  .observaciones-container .sb-lbl {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .observaciones-container .sb-input {
+    font-size: 14px;
+    min-height: 70px;
+    width: 100%;
   }
 
   /* Títulos */
@@ -593,7 +646,7 @@ body {
 /* ═══════════════════════════════════════════════════════
    IMPRESIÓN — @media print
    Prioridad sobre móvil: fuerza layout de escritorio.
-   Funciona igual desde computadora y desde celular.
+   Oculta los campos de móvil (Complejo y Observaciones)
    ═══════════════════════════════════════════════════════ */
 @media print {
   @page {
@@ -610,12 +663,14 @@ body {
     overflow-x: visible !important;
   }
 
-  /* ── Ocultar controles ── */
+  /* ── Ocultar controles y elementos solo-móvil ── */
   .toolbar,
   .format-actions,
   .firma-boton,
   .modal-firma,
-  .evidence-upload {
+  .evidence-upload,
+  .complejo-container,
+  .observaciones-container {
     display: none !important;
   }
 
@@ -863,6 +918,14 @@ function getBaseFormatStructure() {
           <button class="small-btn delete-btn" type="button">Eliminar formato</button>
         </div>
 
+        <!-- Campo COMPLEJO (solo visible en móvil) -->
+        <div class="complejo-container">
+          <div class="dt-row">
+            <span class="dt-lbl">Complejo:</span>
+            <input class="complejo-input" type="text" placeholder="Nombre del complejo">
+          </div>
+        </div>
+
         <div class="dt-block">
           <div class="dt-row">
             <span class="dt-lbl">Fecha:</span>
@@ -943,6 +1006,12 @@ function getBaseFormatStructure() {
           </div>
         </div>
 
+        <!-- Campo OBSERVACIONES (solo visible en móvil) -->
+        <div class="observaciones-container">
+          <span class="sb-lbl">Observaciones:</span>
+          <textarea class="sb-input observaciones-text" rows="3" placeholder="Escribe aquí tus observaciones..."></textarea>
+        </div>
+
         <div class="sigs">
           <div class="sig">
             <input class="sig-line" type="text" placeholder="Nombre completo">
@@ -978,10 +1047,13 @@ function bindFormatEvents(formatCard) {
     });
   });
 
-  formatCard.querySelectorAll('textarea').forEach(ta => {
+  formatCard.querySelectorAll('textarea, .complejo-input, .observaciones-text, input').forEach(ta => {
     ta.addEventListener('input', () => {
-      ta.style.height = 'auto';
-      ta.style.height = ta.scrollHeight + 'px';
+      if (ta.classList.contains('sb-input')) {
+        ta.style.height = 'auto';
+        ta.style.height = ta.scrollHeight + 'px';
+      }
+      updatePrintDates(formatCard);
       saveAllToLocalStorage();
     });
   });
@@ -1129,11 +1201,18 @@ function saveAllToLocalStorage() {
   const data = [];
   document.querySelectorAll('.format-card').forEach(card => {
     data.push({
-      checks:    Array.from(card.querySelectorAll('.ci')).map(ci => ci.classList.contains('on')),
-      inputs:    Array.from(card.querySelectorAll('input')).map(i => i.value),
-      textareas: Array.from(card.querySelectorAll('textarea')).map(ta => ta.value),
-      firmas:    Array.from(card.querySelectorAll('.sig-digital-container')).map(c => { const img = c.querySelector('img'); return img ? img.src : ''; }),
-      fotos:     Array.from(card.querySelectorAll('.photo-grid img')).map(img => img.src)
+      checks:        Array.from(card.querySelectorAll('.ci')).map(ci => ci.classList.contains('on')),
+      inputs:        Array.from(card.querySelectorAll('input:not(.complejo-input):not(.dt-val)')).map(i => i.value),
+      complejo:      card.querySelector('.complejo-input')?.value || '',
+      observaciones: card.querySelector('.observaciones-text')?.value || '',
+      textareas:     Array.from(card.querySelectorAll('textarea:not(.observaciones-text)')).map(ta => ta.value),
+      firmas:        Array.from(card.querySelectorAll('.sig-digital-container')).map(c => { const img = c.querySelector('img'); return img ? img.src : ''; }),
+      fotos:         Array.from(card.querySelectorAll('.photo-grid img')).map(img => img.src),
+      fechas: {
+        fecha:  card.querySelector('.fecha-input')?.value || '',
+        inicio: card.querySelector('.inicio-input')?.value || '',
+        final:  card.querySelector('.final-input')?.value || ''
+      }
     });
   });
   localStorage.setItem('ce_multiformats', JSON.stringify(data));
@@ -1149,8 +1228,30 @@ function restoreAllFromStorage() {
       const card = getBaseFormatStructure();
       bindFormatEvents(card);
       card.querySelectorAll('.ci').forEach((ci, i)    => { if (item.checks[i])    ci.classList.add('on'); });
-      card.querySelectorAll('input').forEach((inp, i)  => { if (item.inputs[i] !== undefined) inp.value = item.inputs[i]; });
-      card.querySelectorAll('textarea').forEach((ta, i)=> { if (item.textareas[i] !== undefined) ta.value = item.textareas[i]; });
+      // restaurar complejo y observaciones
+      if (item.complejo) {
+        const compl = card.querySelector('.complejo-input');
+        if (compl) compl.value = item.complejo;
+      }
+      if (item.observaciones) {
+        const obs = card.querySelector('.observaciones-text');
+        if (obs) obs.value = item.observaciones;
+      }
+      // restaurar inputs normales (nombres, etc)
+      const normalInputs = card.querySelectorAll('input:not(.complejo-input):not(.dt-val)');
+      normalInputs.forEach((inp, i) => { if (item.inputs && item.inputs[i] !== undefined) inp.value = item.inputs[i]; });
+      // restaurar textareas (excepto observaciones)
+      const textareas = card.querySelectorAll('textarea:not(.observaciones-text)');
+      textareas.forEach((ta, i) => { if (item.textareas && item.textareas[i] !== undefined) ta.value = item.textareas[i]; });
+      // restaurar fechas
+      if (item.fechas) {
+        const fechaInp = card.querySelector('.fecha-input');
+        const inicioInp = card.querySelector('.inicio-input');
+        const finalInp = card.querySelector('.final-input');
+        if (fechaInp) fechaInp.value = item.fechas.fecha || '';
+        if (inicioInp) inicioInp.value = item.fechas.inicio || '';
+        if (finalInp) finalInp.value = item.fechas.final || '';
+      }
       card.querySelectorAll('.sig-digital-container').forEach((c, i) => {
         if (item.firmas[i]) { const img = document.createElement('img'); img.src = item.firmas[i]; img.className = 'sig-img'; c.appendChild(img); }
       });
@@ -1159,7 +1260,7 @@ function restoreAllFromStorage() {
       document.getElementById('formatsContainer').appendChild(card);
       updatePrintDates(card);
     });
-  } catch { agregarNuevoFormato(); }
+  } catch(e) { agregarNuevoFormato(); }
 }
 
 document.getElementById('btnAgregarFormato').addEventListener('click', agregarNuevoFormato);
