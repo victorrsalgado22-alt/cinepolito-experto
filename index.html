@@ -7,7 +7,7 @@
 
 <style>
 /* ═══════════════════════════════════════════════════════
-   BASE — escritorio (sin media query)
+   BASE — escritorio
    ═══════════════════════════════════════════════════════ */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -144,7 +144,7 @@ body {
   clip-path: polygon(28% 0%, 100% 0%, 100% 100%, 0% 100%);
 }
 
-/* ── Bloque fecha/hora y complejo (escritorio) ── */
+/* ── Bloque fecha/hora (escritorio) ── */
 .dt-block {
   position: absolute;
   top: 14px; right: 14px;
@@ -176,11 +176,6 @@ body {
   cursor: pointer;
 }
 .dt-print { display: none; }
-
-/* Complejo (solo se ve en móvil normalmente, pero en escritorio se oculta) */
-.complejo-container {
-  display: none;
-}
 
 /* Observaciones (solo móvil) */
 .observaciones-container {
@@ -405,7 +400,7 @@ body {
 
 
 /* ═══════════════════════════════════════════════════════
-   RESPONSIVE MÓVIL — @media (max-width: 768px)
+   RESPONSIVE MÓVIL
    ═══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
@@ -483,32 +478,7 @@ body {
   }
   .small-btn { font-size: 13px; padding: 8px 18px; }
 
-  .complejo-container {
-    display: block;
-    width: 100%;
-    margin-bottom: 12px;
-  }
-  .complejo-container .dt-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-  .complejo-container .dt-lbl {
-    font-size: 14px;
-    min-width: 85px;
-    font-weight: 600;
-  }
-  .complejo-input {
-    flex: 1;
-    border: none;
-    border-bottom: 1.5px solid #b36be0;
-    font-size: 14px;
-    padding: 6px 6px;
-    background: transparent;
-    outline: none;
-  }
-
+  /* Bloque fecha/hora en móvil (no absoluto) */
   .dt-block {
     position: static !important;
     width: 100%;
@@ -532,7 +502,7 @@ body {
 
   .sec-title { font-size: 16px; margin-top: 20px; margin-bottom: 12px; }
 
-  /* Convertir grids a lista vertical ordenada */
+  /* Grids a columna */
   .checks-ent,
   .checks-acr,
   .checks-ref {
@@ -583,6 +553,7 @@ body {
   }
   .sb-input.tall { min-height: 80px; }
 
+  /* Mostrar observaciones solo en móvil */
   .observaciones-container {
     display: block;
     width: 100%;
@@ -654,7 +625,6 @@ body {
   .firma-boton,
   .modal-firma,
   .evidence-upload,
-  .complejo-container,
   .observaciones-container {
     display: none !important;
   }
@@ -713,6 +683,7 @@ body {
     padding-bottom: 12px !important;
   }
 
+  /* Posición absoluta para fecha/hora en impresión */
   .dt-block {
     position: absolute !important;
     top: 14px !important;
@@ -730,53 +701,21 @@ body {
     color: #1a1a2e;
   }
 
+  /* Grids impresión */
   .checks-ent {
     display: grid !important;
     grid-template-columns: 130px 160px 180px auto !important;
     grid-template-rows: repeat(3, 20px) !important;
-    flex-direction: unset !important;
-    gap: unset !important;
   }
   .checks-acr {
     display: grid !important;
     grid-template-columns: 130px 160px 180px 1fr !important;
     grid-template-rows: repeat(3, 20px) !important;
-    flex-direction: unset !important;
-    gap: unset !important;
   }
   .checks-ref {
     display: grid !important;
     grid-template-columns: 200px 220px 1fr !important;
     grid-template-rows: repeat(3, 22px) !important;
-    flex-direction: unset !important;
-    gap: unset !important;
-  }
-
-  .checks-ent .ci,
-  .checks-acr .ci,
-  .checks-ref .ci {
-    width: fit-content !important;
-    padding-left: 0 !important;
-  }
-
-  .acr-bar-vip {
-    grid-column: 4 !important;
-    grid-row: 1 !important;
-    padding-left: 10px !important;
-  }
-  .acr-side {
-    grid-column: 4 !important;
-    grid-row: 2 / span 2 !important;
-    padding-left: 10px !important;
-    width: auto !important;
-    margin-top: 0 !important;
-  }
-  .ref-side {
-    grid-column: 3 !important;
-    grid-row: 1 / span 3 !important;
-    padding-left: 0 !important;
-    width: auto !important;
-    margin-top: 0 !important;
   }
 
   .ci { padding: 0 !important; gap: 6px !important; }
@@ -791,7 +730,6 @@ body {
     display: flex !important;
     flex-direction: row !important;
     margin-top: 14px !important;
-    gap: 0 !important;
   }
   .sig {
     flex: 1 !important;
@@ -813,7 +751,6 @@ body {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
   }
-
   .corner-deco { display: block !important; }
 }
 </style>
@@ -861,14 +798,6 @@ function getBaseFormatStructure() {
         <div class="format-actions">
           <button class="small-btn duplicate-btn" type="button">Duplicar formato</button>
           <button class="small-btn delete-btn" type="button">Eliminar formato</button>
-        </div>
-
-        <!-- Complejo (solo móvil) -->
-        <div class="complejo-container">
-          <div class="dt-row">
-            <span class="dt-lbl">Complejo:</span>
-            <input class="complejo-input" type="text" placeholder="Nombre del complejo">
-          </div>
         </div>
 
         <div class="dt-block">
@@ -982,7 +911,7 @@ function bindFormatEvents(formatCard) {
     });
   });
 
-  formatCard.querySelectorAll('textarea, .complejo-input, .observaciones-text, input').forEach(el => {
+  formatCard.querySelectorAll('textarea, .observaciones-text, input').forEach(el => {
     el.addEventListener('input', () => {
       if (el.classList.contains('sb-input') && !el.classList.contains('observaciones-text')) {
         el.style.height = 'auto';
@@ -1147,7 +1076,6 @@ function saveAllToLocalStorage() {
   document.querySelectorAll('.format-card').forEach(card => {
     data.push({
       checks: Array.from(card.querySelectorAll('.ci')).map(ci => ci.classList.contains('on')),
-      complejo: card.querySelector('.complejo-input')?.value || '',
       fecha: card.querySelector('.fecha-input')?.value || '',
       horaInicio: card.querySelector('.inicio-input')?.value || '',
       horaFinal: card.querySelector('.final-input')?.value || '',
@@ -1179,10 +1107,6 @@ function restoreAllFromStorage() {
       const checks = card.querySelectorAll('.ci');
       checks.forEach((ci, i) => { if (item.checks && item.checks[i]) ci.classList.add('on'); });
       
-      if (item.complejo) {
-        const compl = card.querySelector('.complejo-input');
-        if (compl) compl.value = item.complejo;
-      }
       if (item.fecha) {
         const fecha = card.querySelector('.fecha-input');
         if (fecha) fecha.value = item.fecha;
