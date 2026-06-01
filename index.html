@@ -179,7 +179,7 @@ body {
 
 /* Complejo (solo se ve en móvil normalmente, pero en escritorio se oculta) */
 .complejo-container {
-  display: none; /* en escritorio no aparece */
+  display: none;
 }
 
 /* Observaciones (solo móvil) */
@@ -406,7 +406,6 @@ body {
 
 /* ═══════════════════════════════════════════════════════
    RESPONSIVE MÓVIL — @media (max-width: 768px)
-   Solo afecta pantallas pequeñas. No toca escritorio.
    ═══════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
 
@@ -416,7 +415,6 @@ body {
     overflow-x: hidden;
   }
 
-  /* Toolbar: pegado arriba, botones apilados */
   .toolbar {
     width: 100%;
     flex-direction: column;
@@ -439,7 +437,6 @@ body {
     font-size: 15px;
   }
 
-  /* Contenedor de formatos */
   .formats-container {
     padding: 16px 12px;
     gap: 24px;
@@ -449,7 +446,6 @@ body {
 
   .format-card { width: 100%; align-items: stretch; }
 
-  /* Hoja: columna, sin overflow-x */
   .sheet {
     width: 100% !important;
     min-height: 0;
@@ -458,7 +454,6 @@ body {
     border-radius: 10px;
   }
 
-  /* Barras laterales → banda horizontal arriba */
   .left-bars {
     flex-direction: row;
     width: 100%;
@@ -468,15 +463,12 @@ body {
   .bar-purple { width: auto; flex: 2; height: 100%; }
   .bar-teal   { width: auto; flex: 1; height: 100%; }
 
-  /* Área principal */
   .main {
     padding: 10px 14px 20px;
     width: 100%;
-    /* deja espacio abajo para que el corner-deco no pise firmas */
     padding-bottom: 70px;
   }
 
-  /* Botones Duplicar/Eliminar: flujo normal, encima del contenido */
   .format-actions {
     position: static !important;
     display: flex;
@@ -491,29 +483,6 @@ body {
   }
   .small-btn { font-size: 13px; padding: 8px 18px; }
 
-  /* Fecha/hora y complejo: flujo normal debajo de los botones */
-  .dt-block {
-    position: static !important;
-    width: 100%;
-    margin-bottom: 14px;
-    gap: 8px;
-  }
-  .dt-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-  }
-  .dt-lbl { font-size: 13px; min-width: 80px; }
-  .dt-val {
-    flex: 1;
-    width: 100%;
-    font-size: 14px;
-    padding: 4px 6px;
-    border-bottom-width: 1.5px;
-  }
-
-  /* Mostrar el campo Complejo en móvil */
   .complejo-container {
     display: block;
     width: 100%;
@@ -526,117 +495,138 @@ body {
     width: 100%;
   }
   .complejo-container .dt-lbl {
-    font-size: 13px;
-    min-width: 80px;
+    font-size: 14px;
+    min-width: 85px;
+    font-weight: 600;
   }
   .complejo-input {
     flex: 1;
     border: none;
-    border-bottom: 1.4px solid #b36be0;
+    border-bottom: 1.5px solid #b36be0;
     font-size: 14px;
-    padding: 4px 6px;
+    padding: 6px 6px;
     background: transparent;
     outline: none;
   }
 
-  /* Observaciones en móvil */
-  .observaciones-container {
-    display: block;
+  .dt-block {
+    position: static !important;
     width: 100%;
-    margin: 16px 0 20px;
+    margin-bottom: 14px;
+    gap: 8px;
   }
-  .observaciones-container .sb-lbl {
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    display: block;
+  .dt-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
   }
-  .observaciones-container .sb-input {
+  .dt-lbl { font-size: 14px; min-width: 85px; font-weight: 600; }
+  .dt-val {
+    flex: 1;
+    width: 100%;
     font-size: 14px;
-    min-height: 70px;
-    width: 100%;
+    padding: 6px 6px;
+    border-bottom-width: 1.5px;
   }
 
-  /* Títulos */
-  .sec-title { font-size: 15px; margin-top: 18px; margin-bottom: 10px; }
+  .sec-title { font-size: 16px; margin-top: 20px; margin-bottom: 12px; }
 
-  /* ── Grids → columna única ── */
+  /* Convertir grids a lista vertical ordenada */
   .checks-ent,
   .checks-acr,
   .checks-ref {
     display: flex !important;
     flex-direction: column !important;
-    gap: 10px !important;
-    grid-template-columns: unset !important;
-    grid-template-rows: unset !important;
+    gap: 12px !important;
   }
 
-  /* Anular posicionamiento grid inline de cada item */
   .checks-ent .ci,
   .checks-acr .ci,
   .checks-ref .ci {
-    grid-column: unset !important;
-    grid-row: unset !important;
-    padding-left: 0 !important;
-    width: 100%;
+    width: 100% !important;
+    padding: 6px 0;
   }
+
   .acr-bar-vip {
-    grid-column: unset !important;
-    grid-row: unset !important;
+    width: 100% !important;
     padding-left: 0 !important;
   }
 
-  /* Cajas laterales al flujo */
   .acr-side,
   .ref-side {
-    grid-column: unset !important;
-    grid-row: unset !important;
+    width: 100% !important;
     padding-left: 0 !important;
-    width: 100%;
-    margin-top: 6px;
+    margin-top: 8px;
   }
-  .side-box { padding-left: 0 !important; width: 100%; }
 
-  /* Checkboxes táctiles */
-  .ci { padding: 6px 4px; gap: 12px; }
-  .cb { width: 20px; height: 20px; font-size: 13px; }
-  .ci-lbl { font-size: 14px; white-space: normal !important; }
+  .ci {
+    padding: 6px 0;
+    gap: 14px;
+  }
+  .cb {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
+  .ci-lbl {
+    font-size: 15px;
+    white-space: normal !important;
+    line-height: 1.3;
+  }
 
-  /* Cajas de texto */
-  .sb-lbl { font-size: 11px; margin-bottom: 4px; }
-  .sb-input { font-size: 14px; min-height: 52px; padding: 10px; }
+  .sb-lbl { font-size: 13px; margin-bottom: 6px; font-weight: 600; }
+  .sb-input {
+    font-size: 14px;
+    min-height: 52px;
+    padding: 10px;
+  }
   .sb-input.tall { min-height: 80px; }
 
-  /* Firmas: una debajo de otra, centradas */
+  .observaciones-container {
+    display: block;
+    width: 100%;
+    margin: 20px 0 20px;
+  }
+  .observaciones-container .sb-lbl {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
   .sigs {
     flex-direction: column;
     align-items: center;
-    gap: 24px;
-    margin-top: 24px;
+    gap: 28px;
+    margin-top: 20px;
   }
   .sig {
-    width: 80%;
+    width: 90%;
     max-width: 100%;
     margin-right: 0 !important;
     align-items: center;
   }
-  .sig-line { font-size: 14px; padding: 5px 8px; width: 100%; text-align: center; }
-  .sig-lbl  { font-size: 12px; }
-  .firma-boton { font-size: 13px; padding: 8px 22px; margin-top: 6px; }
-  .sig-img { max-width: 180px; max-height: 65px; }
+  .sig-line {
+    font-size: 15px;
+    padding: 8px 8px;
+    width: 100%;
+    text-align: center;
+    border-bottom-width: 1.5px;
+  }
+  .sig-lbl  { font-size: 13px; }
+  .firma-boton { font-size: 14px; padding: 10px 24px; margin-top: 8px; }
+  .sig-img { max-width: 200px; max-height: 70px; }
 
-  /* Evidencia */
   .evidence-section {
     width: 100% !important;
     border-radius: 10px;
     padding: 16px;
     margin-top: 0;
   }
-  .evidence-title { font-size: 15px; }
-  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .evidence-title { font-size: 16px; }
+  .photo-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .photo-grid img { max-height: 160px; }
 
-  /* Modal */
   .modal-content { width: 96%; padding: 18px 12px; }
   .firma-buttons { gap: 10px; }
   .firma-buttons button { padding: 10px 18px; font-size: 14px; }
@@ -644,9 +634,7 @@ body {
 
 
 /* ═══════════════════════════════════════════════════════
-   IMPRESIÓN — @media print
-   Prioridad sobre móvil: fuerza layout de escritorio.
-   Oculta los campos de móvil (Complejo y Observaciones)
+   IMPRESIÓN
    ═══════════════════════════════════════════════════════ */
 @media print {
   @page {
@@ -654,16 +642,13 @@ body {
     margin: 10mm 10mm;
   }
 
-  /* ── Reset body ── */
   body {
     background: #fff !important;
     padding: 0 !important;
     display: block !important;
-    align-items: unset !important;
     overflow-x: visible !important;
   }
 
-  /* ── Ocultar controles y elementos solo-móvil ── */
   .toolbar,
   .format-actions,
   .firma-boton,
@@ -674,7 +659,6 @@ body {
     display: none !important;
   }
 
-  /* ── Contenedor de formatos ── */
   .formats-container {
     display: block !important;
     width: 100% !important;
@@ -689,9 +673,8 @@ body {
     margin-bottom: 8mm;
   }
 
-  /* ── HOJA: forzar layout horizontal de escritorio ── */
   .sheet {
-    display: flex !important;          /* horizontal, no columna */
+    display: flex !important;
     flex-direction: row !important;
     width: 100% !important;
     min-height: 100mm !important;
@@ -699,14 +682,11 @@ body {
     border: 1px solid #ccc !important;
     box-shadow: none !important;
     border-radius: 0 !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
   }
 
-  /* ── Barras laterales: verticales (como escritorio) ── */
   .left-bars {
     display: flex !important;
-    flex-direction: row !important;    /* columnas, no fila */
+    flex-direction: row !important;
     width: auto !important;
     height: auto !important;
     flex-shrink: 0 !important;
@@ -726,7 +706,6 @@ body {
     min-height: 100mm;
   }
 
-  /* ── Main: padding normal ── */
   .main {
     padding: 14px 14px 12px 12px !important;
     width: auto !important;
@@ -734,7 +713,6 @@ body {
     padding-bottom: 12px !important;
   }
 
-  /* ── Fecha/hora: volver a posición absoluta ── */
   .dt-block {
     position: absolute !important;
     top: 14px !important;
@@ -752,7 +730,6 @@ body {
     color: #1a1a2e;
   }
 
-  /* ── Grids: restaurar layout original ── */
   .checks-ent {
     display: grid !important;
     grid-template-columns: 130px 160px 180px auto !important;
@@ -775,7 +752,6 @@ body {
     gap: unset !important;
   }
 
-  /* Restaurar posicionamiento grid inline de cada .ci */
   .checks-ent .ci,
   .checks-acr .ci,
   .checks-ref .ci {
@@ -783,7 +759,6 @@ body {
     padding-left: 0 !important;
   }
 
-  /* Restaurar posición de Bar VIP y side boxes */
   .acr-bar-vip {
     grid-column: 4 !important;
     grid-row: 1 !important;
@@ -803,72 +778,42 @@ body {
     width: auto !important;
     margin-top: 0 !important;
   }
-  .side-box { padding-left: 8px !important; width: auto !important; }
 
-  /* Checkboxes: tamaño original */
   .ci { padding: 0 !important; gap: 6px !important; }
   .cb { width: 13px !important; height: 13px !important; font-size: 9px !important; }
   .ci-lbl { font-size: 10px !important; white-space: nowrap !important; }
 
-  /* Textos */
   .sec-title { font-size: 13px !important; margin-top: 10px !important; margin-bottom: 6px !important; }
   .sb-lbl    { font-size: 8px !important; }
   .sb-input  { font-size: 9.5px !important; min-height: 32px !important; padding: 4px 6px !important; }
-  .sb-input.tall { min-height: 54px !important; }
 
-  /* Firmas: fila horizontal */
   .sigs {
     display: flex !important;
     flex-direction: row !important;
     margin-top: 14px !important;
     gap: 0 !important;
-    align-items: flex-start !important;
   }
   .sig {
     flex: 1 !important;
-    width: auto !important;
     max-width: 240px !important;
     margin-right: 20px !important;
-    align-items: center !important;
   }
   .sig-line { font-size: 10px !important; }
   .sig-lbl  { font-size: 8.5px !important; }
   .sig-img  { max-width: 140px !important; max-height: 50px !important; }
 
-  /* Firma digital y sigs: no cortar en página */
-  .sigs,
-  .sig,
-  .sig-digital-container {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Evidencia */
   .evidence-section {
     display: block !important;
     width: 100% !important;
-    box-shadow: none !important;
     border: 1px solid #ccc !important;
-    border-radius: 0 !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
     margin-top: 6mm;
     padding: 14px !important;
   }
   .photo-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
-  }
-  .photo-grid img {
-    width: 100% !important;
-    max-height: 180px !important;
-    object-fit: contain !important;
-    break-inside: avoid;
-    page-break-inside: avoid;
   }
 
-  /* Corner deco */
   .corner-deco { display: block !important; }
 }
 </style>
@@ -918,7 +863,7 @@ function getBaseFormatStructure() {
           <button class="small-btn delete-btn" type="button">Eliminar formato</button>
         </div>
 
-        <!-- Campo COMPLEJO (solo visible en móvil) -->
+        <!-- Complejo (solo móvil) -->
         <div class="complejo-container">
           <div class="dt-row">
             <span class="dt-lbl">Complejo:</span>
@@ -944,69 +889,58 @@ function getBaseFormatStructure() {
           </div>
         </div>
 
+        <!-- ENTRENAMIENTOS -->
         <div class="sec-title">Entrenamientos:</div>
-
         <div class="checks-ent">
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Dulcería</span></div>
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Taquilla</span></div>
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Coffee Tree</span></div>
-
-          <div class="ci" style="grid-column:2;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Spyral</span></div>
-          <div class="ci" style="grid-column:2;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Limpieza Operativa</span></div>
-          <div class="ci" style="grid-column:2;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Control de Salas</span></div>
-
-          <div class="ci" style="grid-column:3;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Comandero RSB VIP</span></div>
-          <div class="ci" style="grid-column:3;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Corredor RSB VIP</span></div>
-          <div class="ci" style="grid-column:3;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Cocina Industrial VIP</span></div>
-
-          <div class="ci" style="grid-column:4;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Bar VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Spyral</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Limpieza Operativa</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Control de Salas</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Comandero RSB VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Corredor RSB VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Cocina Industrial VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Bar VIP</span></div>
         </div>
 
+        <!-- ACREDITACIONES -->
         <div class="sec-title">Acreditaciones:</div>
-
         <div class="checks-acr">
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Dulcería</span></div>
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Taquilla</span></div>
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Coffee Tree</span></div>
-
-          <div class="ci" style="grid-column:2;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Spyral</span></div>
-          <div class="ci" style="grid-column:2;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Limpieza Operativa</span></div>
-          <div class="ci" style="grid-column:2;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Control de Salas</span></div>
-
-          <div class="ci" style="grid-column:3;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Comandero RSB VIP</span></div>
-          <div class="ci" style="grid-column:3;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Corredor RSB VIP</span></div>
-          <div class="ci" style="grid-column:3;grid-row:3"><div class="cb">✓</div><span class="ci-lbl">Cocina Industrial VIP</span></div>
-
-          <div class="ci acr-bar-vip"><div class="cb">✓</div><span class="ci-lbl">Bar VIP</span></div>
-
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Spyral</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Limpieza Operativa</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Control de Salas</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Comandero RSB VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Corredor RSB VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Cocina Industrial VIP</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Bar VIP</span></div>
+          
           <div class="side-box acr-side">
             <span class="sb-lbl">Especifica la estación de Cocina Industrial / Coffee Tree:</span>
             <textarea class="sb-input acr-text"></textarea>
           </div>
         </div>
 
+        <!-- REFORZAMIENTO -->
         <div class="sec-title">Reforzamiento a Procesos:</div>
-
         <div class="checks-ref">
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Elaboración de un producto</span></div>
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Producto nuevo (lanzamiento)</span></div>
           <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Técnica de venta</span></div>
-
-          <div class="ci" style="grid-column:2;grid-row:1"><div class="cb">✓</div><span class="ci-lbl">Punto de venta (POS)</span></div>
-          <div class="ci" style="grid-column:2;grid-row:2"><div class="cb">✓</div><span class="ci-lbl">Restaurante en su Butaca (RBS)</span></div>
-
-          <div class="ci" style="grid-column:2;grid-row:3">
-            <div class="cb">✓</div>
-            <span class="ci-lbl">Equipos<br><span style="font-size:8.5px;">(Habilitación e Inhabilitación)</span></span>
-          </div>
-
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Punto de venta (POS)</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Restaurante en su Butaca (RBS)</span></div>
+          <div class="ci"><div class="cb">✓</div><span class="ci-lbl">Equipos (Habilitación e Inhabilitación)</span></div>
+          
           <div class="side-box ref-side">
             <span class="sb-lbl">Especifica el producto que reforzaste:</span>
             <textarea class="sb-input tall ref-text"></textarea>
           </div>
         </div>
 
-        <!-- Campo OBSERVACIONES (solo visible en móvil) -->
+        <!-- OBSERVACIONES (solo móvil) -->
         <div class="observaciones-container">
           <span class="sb-lbl">Observaciones:</span>
           <textarea class="sb-input observaciones-text" rows="3" placeholder="Escribe aquí tus observaciones..."></textarea>
@@ -1041,17 +975,18 @@ function getBaseFormatStructure() {
 
 function bindFormatEvents(formatCard) {
   formatCard.querySelectorAll('.ci').forEach(ci => {
-    ci.addEventListener('click', () => {
+    ci.addEventListener('click', (e) => {
+      e.stopPropagation();
       ci.classList.toggle('on');
       saveAllToLocalStorage();
     });
   });
 
-  formatCard.querySelectorAll('textarea, .complejo-input, .observaciones-text, input').forEach(ta => {
-    ta.addEventListener('input', () => {
-      if (ta.classList.contains('sb-input')) {
-        ta.style.height = 'auto';
-        ta.style.height = ta.scrollHeight + 'px';
+  formatCard.querySelectorAll('textarea, .complejo-input, .observaciones-text, input').forEach(el => {
+    el.addEventListener('input', () => {
+      if (el.classList.contains('sb-input') && !el.classList.contains('observaciones-text')) {
+        el.style.height = 'auto';
+        el.style.height = el.scrollHeight + 'px';
       }
       updatePrintDates(formatCard);
       saveAllToLocalStorage();
@@ -1097,9 +1032,15 @@ function updatePrintDates(card) {
   const inicio = card.querySelector('.inicio-input');
   const fin    = card.querySelector('.final-input');
 
-  card.querySelector('.fecha-print').textContent  = fecha.value  ? fecha.value.split('-').reverse().join('/') : '';
-  card.querySelector('.inicio-print').textContent = inicio.value || '';
-  card.querySelector('.final-print').textContent  = fin.value    || '';
+  if (fecha && card.querySelector('.fecha-print')) {
+    card.querySelector('.fecha-print').textContent = fecha.value ? fecha.value.split('-').reverse().join('/') : '';
+  }
+  if (inicio && card.querySelector('.inicio-print')) {
+    card.querySelector('.inicio-print').textContent = inicio.value || '';
+  }
+  if (fin && card.querySelector('.final-print')) {
+    card.querySelector('.final-print').textContent = fin.value || '';
+  }
 }
 
 function agregarNuevoFormato() {
@@ -1129,7 +1070,7 @@ function eliminarFormato(card) {
 }
 
 function clearAllFormats() {
-  if (!confirm('¿Limpiar todos los formatos?')) return;
+  if (!confirm('¿Limpiar todos los formatos? Los datos se perderán.')) return;
   document.getElementById('formatsContainer').innerHTML = '';
   localStorage.removeItem('ce_multiformats');
   agregarNuevoFormato();
@@ -1144,7 +1085,7 @@ function abrirModalFirma() {
   ctx.fillStyle = '#fff';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.strokeStyle = '#0033cc';
-  ctx.lineWidth = 1;
+  ctx.lineWidth = 2;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
@@ -1152,15 +1093,17 @@ function abrirModalFirma() {
 
   function getPos(e) {
     const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
     if (e.touches) {
       return {
-        x: (e.touches[0].clientX - rect.left) * (canvas.width / rect.width),
-        y: (e.touches[0].clientY - rect.top)  * (canvas.height / rect.height)
+        x: (e.touches[0].clientX - rect.left) * scaleX,
+        y: (e.touches[0].clientY - rect.top) * scaleY
       };
     }
     return {
-      x: (e.clientX - rect.left) * (canvas.width / rect.width),
-      y: (e.clientY - rect.top)  * (canvas.height / rect.height)
+      x: (e.clientX - rect.left) * scaleX,
+      y: (e.clientY - rect.top) * scaleY
     };
   }
 
@@ -1179,8 +1122,10 @@ document.getElementById('btnGuardarFirma').addEventListener('click', () => {
   const img = document.createElement('img');
   img.src = canvas.toDataURL('image/png');
   img.className = 'sig-img';
-  currentSignatureContext.innerHTML = '';
-  currentSignatureContext.appendChild(img);
+  if (currentSignatureContext) {
+    currentSignatureContext.innerHTML = '';
+    currentSignatureContext.appendChild(img);
+  }
   document.getElementById('modalFirma').classList.remove('active');
   saveAllToLocalStorage();
 });
@@ -1201,18 +1146,19 @@ function saveAllToLocalStorage() {
   const data = [];
   document.querySelectorAll('.format-card').forEach(card => {
     data.push({
-      checks:        Array.from(card.querySelectorAll('.ci')).map(ci => ci.classList.contains('on')),
-      inputs:        Array.from(card.querySelectorAll('input:not(.complejo-input):not(.dt-val)')).map(i => i.value),
-      complejo:      card.querySelector('.complejo-input')?.value || '',
+      checks: Array.from(card.querySelectorAll('.ci')).map(ci => ci.classList.contains('on')),
+      complejo: card.querySelector('.complejo-input')?.value || '',
+      fecha: card.querySelector('.fecha-input')?.value || '',
+      horaInicio: card.querySelector('.inicio-input')?.value || '',
+      horaFinal: card.querySelector('.final-input')?.value || '',
+      acrText: card.querySelector('.acr-text')?.value || '',
+      refText: card.querySelector('.ref-text')?.value || '',
       observaciones: card.querySelector('.observaciones-text')?.value || '',
-      textareas:     Array.from(card.querySelectorAll('textarea:not(.observaciones-text)')).map(ta => ta.value),
-      firmas:        Array.from(card.querySelectorAll('.sig-digital-container')).map(c => { const img = c.querySelector('img'); return img ? img.src : ''; }),
-      fotos:         Array.from(card.querySelectorAll('.photo-grid img')).map(img => img.src),
-      fechas: {
-        fecha:  card.querySelector('.fecha-input')?.value || '',
-        inicio: card.querySelector('.inicio-input')?.value || '',
-        final:  card.querySelector('.final-input')?.value || ''
-      }
+      nombreExperto: card.querySelector('.sig:first-child .sig-line')?.value || '',
+      nombreCinepolito: card.querySelector('.sig:last-child .sig-line')?.value || '',
+      firmaExperto: (() => { const img = card.querySelector('.sig:first-child .sig-digital-container img'); return img ? img.src : ''; })(),
+      firmaCinepolito: (() => { const img = card.querySelector('.sig:last-child .sig-digital-container img'); return img ? img.src : ''; })(),
+      fotos: Array.from(card.querySelectorAll('.photo-grid img')).map(img => img.src)
     });
   });
   localStorage.setItem('ce_multiformats', JSON.stringify(data));
@@ -1224,43 +1170,88 @@ function restoreAllFromStorage() {
   try {
     const data = JSON.parse(raw);
     document.getElementById('formatsContainer').innerHTML = '';
+    if (data.length === 0) { agregarNuevoFormato(); return; }
+    
     data.forEach(item => {
       const card = getBaseFormatStructure();
       bindFormatEvents(card);
-      card.querySelectorAll('.ci').forEach((ci, i)    => { if (item.checks[i])    ci.classList.add('on'); });
-      // restaurar complejo y observaciones
+      
+      const checks = card.querySelectorAll('.ci');
+      checks.forEach((ci, i) => { if (item.checks && item.checks[i]) ci.classList.add('on'); });
+      
       if (item.complejo) {
         const compl = card.querySelector('.complejo-input');
         if (compl) compl.value = item.complejo;
+      }
+      if (item.fecha) {
+        const fecha = card.querySelector('.fecha-input');
+        if (fecha) fecha.value = item.fecha;
+      }
+      if (item.horaInicio) {
+        const inicio = card.querySelector('.inicio-input');
+        if (inicio) inicio.value = item.horaInicio;
+      }
+      if (item.horaFinal) {
+        const fin = card.querySelector('.final-input');
+        if (fin) fin.value = item.horaFinal;
+      }
+      if (item.acrText) {
+        const acr = card.querySelector('.acr-text');
+        if (acr) acr.value = item.acrText;
+      }
+      if (item.refText) {
+        const ref = card.querySelector('.ref-text');
+        if (ref) ref.value = item.refText;
       }
       if (item.observaciones) {
         const obs = card.querySelector('.observaciones-text');
         if (obs) obs.value = item.observaciones;
       }
-      // restaurar inputs normales (nombres, etc)
-      const normalInputs = card.querySelectorAll('input:not(.complejo-input):not(.dt-val)');
-      normalInputs.forEach((inp, i) => { if (item.inputs && item.inputs[i] !== undefined) inp.value = item.inputs[i]; });
-      // restaurar textareas (excepto observaciones)
-      const textareas = card.querySelectorAll('textarea:not(.observaciones-text)');
-      textareas.forEach((ta, i) => { if (item.textareas && item.textareas[i] !== undefined) ta.value = item.textareas[i]; });
-      // restaurar fechas
-      if (item.fechas) {
-        const fechaInp = card.querySelector('.fecha-input');
-        const inicioInp = card.querySelector('.inicio-input');
-        const finalInp = card.querySelector('.final-input');
-        if (fechaInp) fechaInp.value = item.fechas.fecha || '';
-        if (inicioInp) inicioInp.value = item.fechas.inicio || '';
-        if (finalInp) finalInp.value = item.fechas.final || '';
+      if (item.nombreExperto) {
+        const nombre = card.querySelector('.sig:first-child .sig-line');
+        if (nombre) nombre.value = item.nombreExperto;
       }
-      card.querySelectorAll('.sig-digital-container').forEach((c, i) => {
-        if (item.firmas[i]) { const img = document.createElement('img'); img.src = item.firmas[i]; img.className = 'sig-img'; c.appendChild(img); }
-      });
+      if (item.nombreCinepolito) {
+        const nombre = card.querySelector('.sig:last-child .sig-line');
+        if (nombre) nombre.value = item.nombreCinepolito;
+      }
+      if (item.firmaExperto) {
+        const container = card.querySelector('.sig:first-child .sig-digital-container');
+        if (container) {
+          const img = document.createElement('img');
+          img.src = item.firmaExperto;
+          img.className = 'sig-img';
+          container.appendChild(img);
+        }
+      }
+      if (item.firmaCinepolito) {
+        const container = card.querySelector('.sig:last-child .sig-digital-container');
+        if (container) {
+          const img = document.createElement('img');
+          img.src = item.firmaCinepolito;
+          img.className = 'sig-img';
+          container.appendChild(img);
+        }
+      }
+      
       const grid = card.querySelector('.photo-grid');
-      item.fotos.forEach(src => { const img = document.createElement('img'); img.src = src; grid.appendChild(img); });
+      if (item.fotos) {
+        item.fotos.forEach(src => {
+          if (src) {
+            const img = document.createElement('img');
+            img.src = src;
+            grid.appendChild(img);
+          }
+        });
+      }
+      
       document.getElementById('formatsContainer').appendChild(card);
       updatePrintDates(card);
     });
-  } catch(e) { agregarNuevoFormato(); }
+  } catch(e) { 
+    console.error(e);
+    agregarNuevoFormato(); 
+  }
 }
 
 document.getElementById('btnAgregarFormato').addEventListener('click', agregarNuevoFormato);
